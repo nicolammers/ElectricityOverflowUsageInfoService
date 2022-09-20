@@ -1,18 +1,15 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectricityOverflowUsageInfoService
 {
-    class SmardApiReader
+    public class SmardApiReader
     {
         public static string uri = "https://www.smard.de/app/chart_data/410/DE/index_hour.json";
 
-        public async static Task Search()
-        {
+        public async static Task Search() {
             try {
                 using (HttpClient client = new HttpClient())
                 {
@@ -22,7 +19,8 @@ namespace ElectricityOverflowUsageInfoService
                     Console.WriteLine(parsedJson);
                 }
             }
-            catch (Exception exception) {
+            catch (Exception exception)
+            {
                 Console.WriteLine(exception);
             }
         }
