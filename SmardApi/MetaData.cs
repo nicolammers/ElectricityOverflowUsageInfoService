@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace ElectricityOverflowUsageInfoService.SmardApi {
-    public class Indices {
-        public List<double> Timestamps { get; set; }
+    public class MetaData {
+        public int Version { get; set; }
+        public double Created { get; set; }
     }
 }
