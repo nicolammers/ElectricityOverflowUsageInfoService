@@ -11,11 +11,13 @@ namespace ElectricityOverflowUsageInfoService {
             indices.Timestamps.Reverse();
 
             //foreach (double mainTs in indices.Timestamps) {
-                Console.WriteLine("Indices: " + UnixTimeStampToDateTime(indices.Timestamps.First()).ToString());
+                double mainTs = indices.Timestamps.First();
+                Console.WriteLine("Indices: " + UnixTimeStampToDateTime(mainTs).ToString());
 
-                TimeSeries timeSeries = await (new SmardApi.SmardApiReader()).GetTimeSeriesAsync(indices.Timestamps.First());
+                TimeSeries timeSeries = await (new SmardApi.SmardApiReader()).GetTimeSeriesAsync(mainTs);
 
-                if(timeSeries != null && timeSeries.Series.Any()) {
+                if (timeSeries != null && timeSeries.Series.Any()) {
+                    timeSeries.Series.Reverse();
                     foreach (List<double?> element in timeSeries.Series) {
                         Console.WriteLine("                  " + UnixTimeStampToDateTime((double) element[0]));
                         Console.WriteLine("                  " + element[1].ToString());
