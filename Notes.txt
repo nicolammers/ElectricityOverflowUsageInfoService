@@ -1,7 +1,6 @@
 ﻿Notizen:
 		
-		Problem: -keine Prognosen in der API
-				 -Einheit unklar	
+		Problem: -Einheit unklar	
 
 
 		Merke: Inideces sind mit dem Filter "hour" Wochen
@@ -9,8 +8,12 @@
 
 
 
-		Filter: 411 - Gesamtnetzlast prognose
-				5097 - Photovoltaik und Wind Prognose
+		Filter: 
+				410 - Stromverbrauch: Gesamt (Netzlast)
+				411 - Gesamtnetzlast prognose
+				4359 - Stromverbrauch: Residuallast
+				4387 - Stromverbrauch: Pumpspeicher
+
 				4169 - Marktpreis: Deutschland/Luxemburg
 				5078 - Marktpreis: Anrainer DE/LU
 				4996 - Marktpreis: Belgien
@@ -27,7 +30,22 @@
 				260 - Marktpreis: Slowenien
 				261 - Marktpreis: Tschechien
 				262 - Marktpreis: Ungarn
+
 				122 - Prognose Gesamterzeugung
+				5097 - Photovoltaik und Wind Prognose
+
+				1223 - Stromerzeugung: Braunkohle
+				1224 - Stromerzeugung: Kernenergie
+				1225 - Stromerzeugung: Wind Offshore
+				1226 - Stromerzeugung: Wasserkraft
+				1227 - Stromerzeugung: Sonstige Konventionelle
+				1228 - Stromerzeugung: Sonstige Erneuerbare
+				4066 - Stromerzeugung: Biomasse
+				4067 - Stromerzeugung: Wind Onshore
+				4068 - Stromerzeugung: Photovoltaik
+				4069 - Stromerzeugung: Steinkohle
+				4070 - Stromerzeugung: Pumpspeicher
+				4071 - Stromerzeugung: Erdgas
 
 
 

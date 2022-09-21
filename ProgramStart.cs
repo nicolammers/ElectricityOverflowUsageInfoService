@@ -1,4 +1,5 @@
-﻿using ElectricityOverflowUsageInfoService.SmardApi.DTO;
+﻿using ElectricityOverflowUsageInfoService.Extensions;
+using ElectricityOverflowUsageInfoService.SmardApi.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,19 +8,18 @@ using System.Threading.Tasks;
 namespace ElectricityOverflowUsageInfoService {
     internal class ProgramStart {
         static async Task Main(string[] args) {
-            Indices indices = await (new SmardApi.SmardApiReader()).GetIndicesAsync();
+            Indices indices = await (new SmardApi.SmardApiReader()).GetIndicesDescAsync(SmardApi.Filter.TotalElectricityGenerationPrognosis);
             indices.Timestamps.Reverse();
 
             //foreach (double mainTs in indices.Timestamps) {
                 double mainTs = indices.Timestamps.First();
-                Console.WriteLine("Indices: " + UnixTimeStampToDateTime(mainTs).ToString());
+                Console.WriteLine("Indices: " + mainTs.toDateTime().ToString());
 
-                TimeSeries timeSeries = await (new SmardApi.SmardApiReader()).GetTimeSeriesAsync(mainTs);
+                TimeSeries timeSeries = await (new SmardApi.SmardApiReader()).GetTimeSeriesAsync(SmardApi.Filter.TotalElectricityGenerationPrognosis, mainTs);
 
                 if (timeSeries != null && timeSeries.Series.Any()) {
-                    timeSeries.Series.Reverse();
                     foreach (List<double?> element in timeSeries.Series) {
-                        Console.WriteLine("                  " + UnixTimeStampToDateTime((double) element[0]));
+                        Console.WriteLine("                  " + ((double) element[0]).toDateTime().ToString());
                         Console.WriteLine("                  " + element[1].ToString());
 
                         Console.WriteLine("");
@@ -37,12 +37,6 @@ namespace ElectricityOverflowUsageInfoService {
             //    Console.WriteLine("");
             //    Console.WriteLine("");
             //}
-        }
-
-        public static DateTime UnixTimeStampToDateTime(double unixTimeStamp) {
-            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-            dtDateTime = dtDateTime.AddMilliseconds(unixTimeStamp).ToLocalTime();
-            return dtDateTime;
         }
     }
 }
