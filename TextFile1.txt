@@ -27,6 +27,7 @@
 				260 - Marktpreis: Slowenien
 				261 - Marktpreis: Tschechien
 				262 - Marktpreis: Ungarn
+				122 - Prognose Gesamterzeugung
 
 
 

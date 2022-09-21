@@ -14,7 +14,7 @@ namespace ElectricityOverflowUsageInfoService.SmardApi {
                 using (HttpClient client = new HttpClient()) {
                     //ToDO: Timeout of CLient
 
-                    HttpResponseMessage response = await client.GetAsync(new Uri(APIGATEWAY + "/5097/DE/index_hour.json"));
+                    HttpResponseMessage response = await client.GetAsync(new Uri(APIGATEWAY + "/122/DE/index_hour.json"));
                     string contentString = await response.Content.ReadAsStringAsync();
                     Indices indices = JsonConvert.DeserializeObject<Indices>(contentString);
                     return indices;
@@ -28,7 +28,7 @@ namespace ElectricityOverflowUsageInfoService.SmardApi {
         public async Task<TimeSeries> GetTimeSeriesAsync(double timestamp) {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    HttpResponseMessage response = await client.GetAsync(new Uri(APIGATEWAY + "/5097/DE/5097_DE_quarterhour_" + timestamp.ToString() + ".json"));
+                    HttpResponseMessage response = await client.GetAsync(new Uri(APIGATEWAY + "/122/DE/122_DE_quarterhour_" + timestamp.ToString() + ".json"));
                     string contentString = await response.Content.ReadAsStringAsync();
                     TimeSeries timeSeries = JsonConvert.DeserializeObject<TimeSeries>(contentString);
                     return timeSeries;
