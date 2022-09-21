@@ -9,7 +9,7 @@ namespace ElectricityOverflowUsageInfoService.SmardApi {
         public async Task<Indices> GetIndicesDescAsync(Filter filter) {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    //ToDO: Timeout of CLient
+                    //ToDo: Timeout of client
 
                     HttpResponseMessage response = await client.GetAsync(GetIndicesUri(filter));
                     string contentString = await response.Content.ReadAsStringAsync();
