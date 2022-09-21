@@ -9,8 +9,24 @@
 
 
 
-		Filter: 411 -> Gesamtnetzlast prognose
-				5097 -> Photovoltaik und Wind Prognose
+		Filter: 411 - Gesamtnetzlast prognose
+				5097 - Photovoltaik und Wind Prognose
+				4169 - Marktpreis: Deutschland/Luxemburg
+				5078 - Marktpreis: Anrainer DE/LU
+				4996 - Marktpreis: Belgien
+				4997 - Marktpreis: Norwegen 2
+				4170 - Marktpreis: Österreich
+				252 - Marktpreis: Dänemark 1
+				253 - Marktpreis: Dänemark 2
+				254 - Marktpreis: Frankreich
+				255 - Marktpreis: Italien (Nord)
+				256 - Marktpreis: Niederlande
+				257 - Marktpreis: Polen
+				258 - Marktpreis: Polen
+				259 - Marktpreis: Schweiz
+				260 - Marktpreis: Slowenien
+				261 - Marktpreis: Tschechien
+				262 - Marktpreis: Ungarn
 
 
 
