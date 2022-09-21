@@ -1,0 +1,9 @@
+﻿Notizen:
+		
+		Problem: -keine Prognosen in der API
+				 -Einheit unklar	
+
+
+		Merke: Inideces sind mit dem Filter "hour" Wochen
+			   daraufhin lassen sich TimeSeries Stündlich für die ganze Woche holen mit dem Filter "hour"
+
