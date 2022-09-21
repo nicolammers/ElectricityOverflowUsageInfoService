@@ -12,7 +12,7 @@ namespace ElectricityOverflowUsageInfoService.SmardApi {
         public async Task<Indices> GetIndicesAsync() {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    //ToDO: Timeout of CLient
+                    //ToDo: Timeout of client
 
                     HttpResponseMessage response = await client.GetAsync(new Uri(APIGATEWAY + "/122/DE/index_hour.json"));
                     string contentString = await response.Content.ReadAsStringAsync();
