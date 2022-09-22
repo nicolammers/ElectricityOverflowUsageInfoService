@@ -1,6 +1,6 @@
 ﻿Notizen:
 		
-		Problem: -Einheit unklar	
+		Problem: -Megawatt Herz	
 				 -Einheit Faktor x4 der Werte der API (Liegt an der Auflösung (Hour, Quarterhour..)!)
 
 
