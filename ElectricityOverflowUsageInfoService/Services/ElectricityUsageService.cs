@@ -13,6 +13,9 @@ namespace ElectricityOverflowUsageInfoService.Services {
             _smardApiReader = smardApiReader;
         }
 
+        /**
+        * <summary>Gets the total electricity usage from the last 24h until now.</summary>
+        */
         public async Task<List<DateTimeValueTuple>> GetTotalElecticityUsageForLastDayAsync() {
             List<DateTimeValueTuple> totalElecticityUsageForLastDay = new List<DateTimeValueTuple>();
 
@@ -21,7 +24,9 @@ namespace ElectricityOverflowUsageInfoService.Services {
 
             TimeSeries timeSeriesForTimestamp = await _smardApiReader.GetTimeSeriesAsync(SmardApi.Filter.TotalElectricityUsage, lastTimestamp);
 
-            foreach (List<double?> element in timeSeriesForTimestamp.Series.Where(x => ((double) x[0]).toDateTime() > DateTime.Now.AddDays(-1))) {
+            foreach (List<double?> element in timeSeriesForTimestamp.Series
+                .Where(x => ((double) x[0]).toDateTime() > DateTime.Now.AddDays(-1) && ((double) x[0]).toDateTime() <= DateTime.Now)) {
+
                 DateTimeValueTuple dateTimeValueTuple = new DateTimeValueTuple() {
                     DateTime = ((double) element[0]).toDateTime(),
                     Value = element[1]
@@ -31,6 +36,31 @@ namespace ElectricityOverflowUsageInfoService.Services {
             }
 
             return totalElecticityUsageForLastDay;
+        }
+
+        /**
+        * <summary>Gets the total electricity usage from now until the SmardApi doesn't deliver new values.</summary>
+        */
+        public async Task<List<DateTimeValueTuple>> GetTotalElecticityUsageForFutureAsync() {
+            List<DateTimeValueTuple> totalElecticityUsageForFuture = new List<DateTimeValueTuple>();
+
+            //Last Available Timestamp (Usually current week)
+            double lastTimestamp = (await _smardApiReader.GetIndicesDescAsync(SmardApi.Filter.TotalElectricityUsage)).Timestamps.First();
+
+            TimeSeries timeSeriesForTimestamp = await _smardApiReader.GetTimeSeriesAsync(SmardApi.Filter.TotalElectricityUsage, lastTimestamp);
+
+            foreach (List<double?> element in timeSeriesForTimestamp.Series
+                .Where(x => x[1] != null && ((double) x[0]).toDateTime() >= DateTime.Now)) {
+                
+                DateTimeValueTuple dateTimeValueTuple = new DateTimeValueTuple() {
+                    DateTime = ((double) element[0]).toDateTime(),
+                    Value = element[1]
+                };
+
+                totalElecticityUsageForFuture.Add(dateTimeValueTuple);
+            }
+
+            return totalElecticityUsageForFuture;
         }
     }
 }
