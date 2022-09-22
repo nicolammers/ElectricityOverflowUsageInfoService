@@ -14,29 +14,23 @@ namespace ElectricityOverflowUsageInfoService.Services {
         }
 
         public async Task<List<DateTimeValueTuple>> GetTotalElecticityUsageForLastDayAsync() {
-            try {
-                List<DateTimeValueTuple> totalElecticityUsageForLastDay = new List<DateTimeValueTuple>();
+            List<DateTimeValueTuple> totalElecticityUsageForLastDay = new List<DateTimeValueTuple>();
 
-                //Last Available Timestamp (Usually current week)
-                double lastTimestamp = (await _smardApiReader.GetIndicesDescAsync(SmardApi.Filter.TotalElectricityUsage)).Timestamps.First();
+            //Last Available Timestamp (Usually current week)
+            double lastTimestamp = (await _smardApiReader.GetIndicesDescAsync(SmardApi.Filter.TotalElectricityUsage)).Timestamps.First();
 
-                TimeSeries timeSeriesForTimestamp = await _smardApiReader.GetTimeSeriesAsync(SmardApi.Filter.TotalElectricityUsage, lastTimestamp);
+            TimeSeries timeSeriesForTimestamp = await _smardApiReader.GetTimeSeriesAsync(SmardApi.Filter.TotalElectricityUsage, lastTimestamp);
 
-                foreach (List<double?> element in timeSeriesForTimestamp.Series.Where(x => ((double) x[0]).toDateTime() > DateTime.Now.AddDays(-1))) {
-                    DateTimeValueTuple dateTimeValueTuple = new DateTimeValueTuple() {
-                        DateTime = ((double) element[0]).toDateTime(),
-                        Value = element[1]
-                    };
+            foreach (List<double?> element in timeSeriesForTimestamp.Series.Where(x => ((double) x[0]).toDateTime() > DateTime.Now.AddDays(-1))) {
+                DateTimeValueTuple dateTimeValueTuple = new DateTimeValueTuple() {
+                    DateTime = ((double) element[0]).toDateTime(),
+                    Value = element[1]
+                };
 
-                    totalElecticityUsageForLastDay.Add(dateTimeValueTuple);
-                }
-
-                return totalElecticityUsageForLastDay;
-
-            } catch (Exception ex) {
-                //ToDo Exception handling
-                throw ex;
+                totalElecticityUsageForLastDay.Add(dateTimeValueTuple);
             }
+
+            return totalElecticityUsageForLastDay;
         }
     }
 }
