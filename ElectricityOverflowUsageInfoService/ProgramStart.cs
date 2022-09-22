@@ -9,7 +9,6 @@ namespace ElectricityOverflowUsageInfoService {
     internal class ProgramStart {
         static async Task Main(string[] args) {
             Indices indices = await (new SmardApi.SmardApiReader()).GetIndicesDescAsync(SmardApi.Filter.TotalElectricityGenerationPrognosis);
-            indices.Timestamps.Reverse();
 
             //foreach (double mainTs in indices.Timestamps) {
                 double mainTs = indices.Timestamps.First();
