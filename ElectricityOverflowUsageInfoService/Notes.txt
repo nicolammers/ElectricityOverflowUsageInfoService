@@ -1,7 +1,7 @@
 ﻿Notizen:
 		
 		Problem: -Einheit unklar	
-				 -Einheit Faktor x4 der Werte der API
+				 -Einheit Faktor x4 der Werte der API (Liegt an der Auflösung (Hour, Quarterhour..)!)
 
 
 		Merke: Inideces sind mit dem Filter "hour" Wochen
