@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace ElectricityOverflowUsageApi.Controllers {
@@ -11,10 +9,18 @@ namespace ElectricityOverflowUsageApi.Controllers {
     public class ElectricityOverflowUsageController : ControllerBase {
 
         [HttpGet]
-        public IActionResult GetElectricityOverflowUsage() {
-            //ToDo: Methode aus dem ServiceProjekt aufrufen, umwandeln in JSON
-            var todo = "test";
-            return Ok(new JsonResult(todo));
+        public async Task<IActionResult> GetElectricityOverflowUsageAsync() {
+
+            var smardApiReader = new ElectricityOverflowUsageInfoService.SmardApi.SmardApiReader();
+            var elecGenServ = new ElectricityOverflowUsageInfoService.Services.ElectricityGenerationService(smardApiReader);
+            var elecUsageServ = new ElectricityOverflowUsageInfoService.Services.ElectricityUsageService(smardApiReader);
+            var elecOverflowServ = new ElectricityOverflowUsageInfoService.Services.ElectricityOverflowService(elecGenServ, elecUsageServ);
+
+            try {
+                return StatusCode((int) HttpStatusCode.OK, new JsonResult(await elecOverflowServ.GetElectricityOverflowAsync()));
+            } catch (Exception ex) {
+                return StatusCode((int) HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
     }
 }
