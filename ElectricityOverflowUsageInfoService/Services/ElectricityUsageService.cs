@@ -16,8 +16,8 @@ namespace ElectricityOverflowUsageInfoService.Services {
         /**
         * <summary>Gets the total electricity usage from the last 24h until now.</summary>
         */
-        public async Task<List<DateTimeValueTuple>> GetTotalElecticityUsageForLastDayAsync() {
-            List<DateTimeValueTuple> totalElecticityUsageForLastDay = new List<DateTimeValueTuple>();
+        public async Task<List<DateTimeValueTuple>> GetTotalElectricityUsageForLastDayAsync() {
+            List<DateTimeValueTuple> totalElectricityUsageForLastDay = new List<DateTimeValueTuple>();
 
             //Last Available Timestamp (Usually current week)
             double lastTimestamp = (await _smardApiReader.GetIndicesDescAsync(SmardApi.Filter.TotalElectricityUsage)).Timestamps.First();
@@ -32,17 +32,17 @@ namespace ElectricityOverflowUsageInfoService.Services {
                     Value = element[1]
                 };
 
-                totalElecticityUsageForLastDay.Add(dateTimeValueTuple);
+                totalElectricityUsageForLastDay.Add(dateTimeValueTuple);
             }
 
-            return totalElecticityUsageForLastDay;
+            return totalElectricityUsageForLastDay;
         }
 
         /**
         * <summary>Gets the total electricity usage from now until the SmardApi doesn't deliver new values.</summary>
         */
-        public async Task<List<DateTimeValueTuple>> GetTotalElecticityUsageForFutureAsync() {
-            List<DateTimeValueTuple> totalElecticityUsageForFuture = new List<DateTimeValueTuple>();
+        public async Task<List<DateTimeValueTuple>> GetTotalElectricityUsageForFutureAsync() {
+            List<DateTimeValueTuple> totalElectricityUsageForFuture = new List<DateTimeValueTuple>();
 
             //Last Available Timestamp (Usually current week)
             double lastTimestamp = (await _smardApiReader.GetIndicesDescAsync(SmardApi.Filter.TotalElectricityUsage)).Timestamps.First();
@@ -51,16 +51,31 @@ namespace ElectricityOverflowUsageInfoService.Services {
 
             foreach (List<double?> element in timeSeriesForTimestamp.Series
                 .Where(x => x[1] != null && ((double) x[0]).toDateTime() >= DateTime.Now)) {
-                
+
                 DateTimeValueTuple dateTimeValueTuple = new DateTimeValueTuple() {
                     DateTime = ((double) element[0]).toDateTime(),
                     Value = element[1]
                 };
 
-                totalElecticityUsageForFuture.Add(dateTimeValueTuple);
+                totalElectricityUsageForFuture.Add(dateTimeValueTuple);
             }
 
-            return totalElecticityUsageForFuture;
+            return totalElectricityUsageForFuture;
+        }
+
+        public async Task<List<DateTimeValueTuple>> GetTotalElectricityUsageAsync() {
+            List<DateTimeValueTuple> totalElectricityGeneration = new List<DateTimeValueTuple>();
+
+            List<Task<List<DateTimeValueTuple>>> asyncOperations = new List<Task<List<DateTimeValueTuple>>>();
+            asyncOperations.Add(GetTotalElectricityUsageForLastDayAsync());
+            asyncOperations.Add(GetTotalElectricityUsageForFutureAsync());
+
+            await Task.WhenAll(asyncOperations);
+
+            totalElectricityGeneration.AddRange(asyncOperations[0].Result);
+            totalElectricityGeneration.AddRange(asyncOperations[1].Result);
+
+            return totalElectricityGeneration;
         }
     }
 }
