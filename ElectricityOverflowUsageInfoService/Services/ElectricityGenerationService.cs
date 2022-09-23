@@ -3,7 +3,6 @@ using ElectricityOverflowUsageInfoService.SmardApi.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectricityOverflowUsageInfoService.Services {
@@ -38,7 +37,7 @@ namespace ElectricityOverflowUsageInfoService.Services {
             //Last Available Timestamp (Usually current week)
             double lastTimestamp = (await _smardApiReader.GetIndicesDescAsync(SmardApi.Filter.TotalElectricityGenerationPrognosis)).Timestamps.First();
 
-            TimeSeries timeSeriesForTimestamp = await _smardApiReader.GetTimeSeriesAsync(SmardApi.Filter.TotalElectricityUsage, lastTimestamp);
+            TimeSeries timeSeriesForTimestamp = await _smardApiReader.GetTimeSeriesAsync(SmardApi.Filter.TotalElectricityGenerationPrognosis, lastTimestamp);
 
             foreach (List<double?> element in timeSeriesForTimestamp.Series
                 .Where(x => x[1] != null && ((double) x[0]).ToDateTime() >= DateTimeExtensions.DateTimeNowCorrection())) {

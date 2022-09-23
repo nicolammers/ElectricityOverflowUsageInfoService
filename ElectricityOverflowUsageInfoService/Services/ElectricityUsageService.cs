@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ElectricityOverflowUsageInfoService.Extensions;
@@ -45,9 +44,9 @@ namespace ElectricityOverflowUsageInfoService.Services {
             List<DateTimeValueTuple> totalElectricityUsageForFuture = new List<DateTimeValueTuple>();
 
             //Last Available Timestamp (Usually current week)
-            double lastTimestamp = (await _smardApiReader.GetIndicesDescAsync(SmardApi.Filter.TotalElectricityUsage)).Timestamps.First();
+            double lastTimestamp = (await _smardApiReader.GetIndicesDescAsync(SmardApi.Filter.TotalElectricityUsagePrognosis)).Timestamps.First();
 
-            TimeSeries timeSeriesForTimestamp = await _smardApiReader.GetTimeSeriesAsync(SmardApi.Filter.TotalElectricityUsage, lastTimestamp);
+            TimeSeries timeSeriesForTimestamp = await _smardApiReader.GetTimeSeriesAsync(SmardApi.Filter.TotalElectricityUsagePrognosis, lastTimestamp);
 
             foreach (List<double?> element in timeSeriesForTimestamp.Series
                 .Where(x => x[1] != null && ((double) x[0]).ToDateTime() >= DateTimeExtensions.DateTimeNowCorrection())) {
