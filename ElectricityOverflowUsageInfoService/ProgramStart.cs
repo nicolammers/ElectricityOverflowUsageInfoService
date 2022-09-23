@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace ElectricityOverflowUsageInfoService {
     internal class ProgramStart {
         static async Task Main(string[] args) {
-            List<Services.DateTimeValueTuple> lastDayGeneration = await (new Services.ElectricityGenerationService(new SmardApi.SmardApiReader()).GetTotalElecticityGenerationForLastDayAsync());
+            List<Services.DateTimeValueTuple> lastDayGeneration = await (new Services.ElectricityGenerationService(new SmardApi.SmardApiReader()).GetTotalElectricityGenerationForLastDayAsync());
             foreach (Services.DateTimeValueTuple element in lastDayGeneration) {
                 Console.WriteLine("                  " + element.DateTime);
                 Console.WriteLine("                  " + element.Value);

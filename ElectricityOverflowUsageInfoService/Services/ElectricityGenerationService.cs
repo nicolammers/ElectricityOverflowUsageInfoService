@@ -14,10 +14,25 @@ namespace ElectricityOverflowUsageInfoService.Services {
             _smardApiReader = smardApiReader;
         }
 
+        public async Task<List<DateTimeValueTuple>> GetTotalElectricityGenerationAsync() {
+            List<DateTimeValueTuple> totalElecticityGeneration = new List<DateTimeValueTuple>();
+
+            List<Task<List<DateTimeValueTuple>>> asyncOperations = new List<Task<List<DateTimeValueTuple>>>();
+            asyncOperations.Add(GetTotalElectricityGenerationForLastDayAsync());
+            asyncOperations.Add(GetTotalElectricityGenerationForFutureAsync());
+
+            await Task.WhenAll(asyncOperations);
+
+            totalElecticityGeneration.AddRange(asyncOperations[0].Result);
+            totalElecticityGeneration.AddRange(asyncOperations[1].Result);
+
+            return totalElecticityGeneration;
+        }
+
         /**
         * <summary>Gets the total electricity generation from now until the SmardApi doesn't deliver new values.</summary>
         */
-        public async Task<List<DateTimeValueTuple>> GetTotalElecticityGenerationForFutureAsync() {
+        public async Task<List<DateTimeValueTuple>> GetTotalElectricityGenerationForFutureAsync() {
             List<DateTimeValueTuple> totalElecticityGenerationForFuture = new List<DateTimeValueTuple>();
 
             //Last Available Timestamp (Usually current week)
@@ -39,14 +54,14 @@ namespace ElectricityOverflowUsageInfoService.Services {
             return totalElecticityGenerationForFuture;
         }
         
-        public async Task<List<DateTimeValueTuple>> GetTotalElecticityGenerationForLastDayAsync() {
+        public async Task<List<DateTimeValueTuple>> GetTotalElectricityGenerationForLastDayAsync() {
             List<DateTimeValueTuple> totalElectricityGenerationForLastDay = new List<DateTimeValueTuple>();
 
             //Last Available Timestamp (Usually current week)
             double lastTimestamp = (await _smardApiReader.GetIndicesDescAsync(SmardApi.Filter.BiomassGeneration)).Timestamps.First();
 
             //Get all Timeseries for all kinds of electricitygeneration-types
-            List<TimeSeries> timeSeriesElectricityGeneration = await GetTimeSeriesElecticityGenerationAsync(lastTimestamp);
+            List<TimeSeries> timeSeriesElectricityGeneration = await GetTimeSeriesElectricityGenerationAsync(lastTimestamp);
 
             //Get all List of DateTimeValueTuple for each Electricity Generation Type for the last 24 hours
             List<List<DateTimeValueTuple>> dateTimeValueTupleListOfAllGenerationKinds = timeSeriesElectricityGeneration.
@@ -71,7 +86,7 @@ namespace ElectricityOverflowUsageInfoService.Services {
             return totalElectricityGenerationForLastDay;
         }
 
-        private async Task<List<TimeSeries>> GetTimeSeriesElecticityGenerationAsync(double timestamp) {
+        private async Task<List<TimeSeries>> GetTimeSeriesElectricityGenerationAsync(double timestamp) {
             List<TimeSeries> timeSeries = new List<TimeSeries>();
 
             List<Task<TimeSeries>> asyncOperations = new List<Task<TimeSeries>>();
