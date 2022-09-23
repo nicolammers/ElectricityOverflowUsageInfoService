@@ -14,6 +14,21 @@ namespace ElectricityOverflowUsageInfoService.Services {
             _smardApiReader = smardApiReader;
         }
 
+        public async Task<List<DateTimeValueTuple>> GetTotalElecticityGenerationAsync() {
+            List<DateTimeValueTuple> totalElecticityGeneration = new List<DateTimeValueTuple>();
+
+            List<Task<List<DateTimeValueTuple>>> asyncOperations = new List<Task<List<DateTimeValueTuple>>>();
+            asyncOperations.Add(GetTotalElecticityGenerationForLastDayAsync());
+            asyncOperations.Add(GetTotalElecticityGenerationForFutureAsync());
+
+            await Task.WhenAll(asyncOperations);
+
+            totalElecticityGeneration.AddRange(asyncOperations[0].Result);
+            totalElecticityGeneration.AddRange(asyncOperations[1].Result);
+
+            return totalElecticityGeneration;
+        }
+
         /**
         * <summary>Gets the total electricity generation from now until the SmardApi doesn't deliver new values.</summary>
         */
