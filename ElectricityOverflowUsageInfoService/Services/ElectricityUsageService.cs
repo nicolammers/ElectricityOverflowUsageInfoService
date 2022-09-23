@@ -25,10 +25,10 @@ namespace ElectricityOverflowUsageInfoService.Services {
             TimeSeries timeSeriesForTimestamp = await _smardApiReader.GetTimeSeriesAsync(SmardApi.Filter.TotalElectricityUsage, lastTimestamp);
 
             foreach (List<double?> element in timeSeriesForTimestamp.Series
-                .Where(x => ((double) x[0]).toDateTime() > DateTime.Now.AddDays(-1) && ((double) x[0]).toDateTime() <= DateTime.Now)) {
+                .Where(x => ((double) x[0]).ToDateTime() > DateTimeExtensions.DateTimeNowCorrection().AddDays(-1) && ((double) x[0]).ToDateTime() <= DateTimeExtensions.DateTimeNowCorrection())) {
 
                 DateTimeValueTuple dateTimeValueTuple = new DateTimeValueTuple() {
-                    DateTime = ((double) element[0]).toDateTime(),
+                    DateTime = ((double) element[0]).ToDateTime(),
                     Value = element[1]
                 };
 
@@ -50,10 +50,10 @@ namespace ElectricityOverflowUsageInfoService.Services {
             TimeSeries timeSeriesForTimestamp = await _smardApiReader.GetTimeSeriesAsync(SmardApi.Filter.TotalElectricityUsage, lastTimestamp);
 
             foreach (List<double?> element in timeSeriesForTimestamp.Series
-                .Where(x => x[1] != null && ((double) x[0]).toDateTime() >= DateTime.Now)) {
-
+                .Where(x => x[1] != null && ((double) x[0]).ToDateTime() >= DateTimeExtensions.DateTimeNowCorrection())) {
+                
                 DateTimeValueTuple dateTimeValueTuple = new DateTimeValueTuple() {
-                    DateTime = ((double) element[0]).toDateTime(),
+                    DateTime = ((double) element[0]).ToDateTime(),
                     Value = element[1]
                 };
 
