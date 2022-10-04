@@ -50,7 +50,7 @@ namespace ElectricityOverflowUsageInfoService.Services {
 
             foreach (List<double?> element in timeSeriesForTimestamp.Series
                 .Where(x => x[1] != null && ((double) x[0]).ToDateTime() >= DateTimeExtensions.DateTimeNowCorrection())) {
-                
+
                 DateTimeValueTuple dateTimeValueTuple = new DateTimeValueTuple() {
                     DateTime = ((double) element[0]).ToDateTime(),
                     Value = element[1]
@@ -63,7 +63,7 @@ namespace ElectricityOverflowUsageInfoService.Services {
         }
 
         public async Task<List<DateTimeValueTuple>> GetTotalElectricityUsageAsync() {
-            List<DateTimeValueTuple> totalElectricityGeneration = new List<DateTimeValueTuple>();
+            List<DateTimeValueTuple> totalElectricityUsage = new List<DateTimeValueTuple>();
 
             List<Task<List<DateTimeValueTuple>>> asyncOperations = new List<Task<List<DateTimeValueTuple>>>();
             asyncOperations.Add(GetTotalElectricityUsageForLastDayAsync());
@@ -71,10 +71,10 @@ namespace ElectricityOverflowUsageInfoService.Services {
 
             await Task.WhenAll(asyncOperations);
 
-            totalElectricityGeneration.AddRange(asyncOperations[0].Result);
-            totalElectricityGeneration.AddRange(asyncOperations[1].Result);
+            totalElectricityUsage.AddRange(asyncOperations[0].Result);
+            totalElectricityUsage.AddRange(asyncOperations[1].Result);
 
-            return totalElectricityGeneration;
+            return totalElectricityUsage;
         }
     }
 }

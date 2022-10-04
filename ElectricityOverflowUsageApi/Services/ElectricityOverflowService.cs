@@ -31,7 +31,7 @@ namespace ElectricityOverflowUsageInfoService.Services {
             List<DateTimeValueTuple> usage = asyncOperations[1].Result;
 
             //For each element in generation and usage list subtract usage from generation values for each datetimes and create DateTimeValueTuple
-            for (int i = 0; i < generation.Count - 1; i++) {
+            for (int i = 0; i < generation.Count; i++) {
                 DateTime dateTime = generation[i].DateTime;
                 double value = generation[i].Value != null ? (double) generation[i].Value : 0;
                 value = usage[i].Value != null ? (value - (double) usage[i].Value) : value;

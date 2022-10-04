@@ -67,7 +67,7 @@ namespace ElectricityOverflowUsageInfoService.Services {
                 Select(x => GetDateTimeValueTupleForLastDayAsync(x)).ToList();
 
             //For each element in DateTimeValueTupleList sum values for datetimes and create DateTimeValueTuple
-            for (int i = 0; i < dateTimeValueTupleListOfAllGenerationKinds.First().Count - 1; i++) {
+            for (int i = 0; i < dateTimeValueTupleListOfAllGenerationKinds.First().Count; i++) {
                 double valueSum = 0;
                 DateTime dateTime = dateTimeValueTupleListOfAllGenerationKinds.First()[i].DateTime;
 
