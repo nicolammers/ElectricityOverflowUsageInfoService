@@ -3,7 +3,7 @@
         "ElectricityOverflowUsageApiLocal": {
             "commandName": "Project",
             "launchBrowser": true,
-            "launchUrl": "api/electricityOverflowUsage",
+            "launchUrl": "api",
             "applicationUrl": "https://localhost:5001;http://localhost:5000",
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
@@ -12,7 +12,7 @@
         "ElectricityOverflowUsageApiHendrik": {
             "commandName": "Project",
             "launchBrowser": true,
-            "launchUrl": "api/electricityOverflowUsage",
+            "launchUrl": "api",
             "applicationUrl": "https://172.30.31.239:44310",
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Development"

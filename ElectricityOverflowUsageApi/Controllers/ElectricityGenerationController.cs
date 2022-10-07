@@ -5,19 +5,17 @@ using System.Threading.Tasks;
 
 namespace ElectricityOverflowUsageApi.Controllers {
     [ApiController]
-    [Route("api/elecOverflow")]
-    public class ElectricityOverflowUsageController : ControllerBase {
+    [Route("api/elecGeneration")]
+    public class ElectricityGenerationController : ControllerBase {
 
         [HttpGet]
-        public async Task<IActionResult> GetElectricityOverflowUsageAsync() {
+        public async Task<IActionResult> GetElectricityUsageAsync() {
 
             var smardApiReader = new ElectricityOverflowUsageInfoService.SmardApi.SmardApiReader();
             var elecGenServ = new ElectricityOverflowUsageInfoService.Services.ElectricityGenerationService(smardApiReader);
-            var elecUsageServ = new ElectricityOverflowUsageInfoService.Services.ElectricityUsageService(smardApiReader);
-            var elecOverflowServ = new ElectricityOverflowUsageInfoService.Services.ElectricityOverflowService(elecGenServ, elecUsageServ);
 
             try {
-                return StatusCode((int) HttpStatusCode.OK, new JsonResult(await elecOverflowServ.GetElectricityOverflowAsync()));
+                return StatusCode((int) HttpStatusCode.OK, new JsonResult(await elecGenServ.GetTotalElectricityGenerationAsync()));
             } catch (Exception ex) {
                 return StatusCode((int) HttpStatusCode.InternalServerError, ex.Message);
             }
