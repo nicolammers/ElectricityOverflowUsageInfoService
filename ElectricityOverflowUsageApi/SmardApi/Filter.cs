@@ -19,5 +19,7 @@
         HardCoalGeneration = 4069,
         PumpStorageGeneration = 4070,
         NaturalGasGeneration = 4071,
+
+        MarketPriceGermany = 4169,
     }
 }
