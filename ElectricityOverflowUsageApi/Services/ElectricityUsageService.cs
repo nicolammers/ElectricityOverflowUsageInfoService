@@ -24,7 +24,7 @@ namespace ElectricityOverflowUsageInfoService.Services {
             TimeSeries timeSeriesForTimestamp = await _smardApiReader.GetTimeSeriesAsync(SmardApi.Filter.TotalElectricityUsage, lastTimestamp);
 
             foreach (List<double?> element in timeSeriesForTimestamp.Series
-                .Where(x => ((double) x[0]).ToDateTime() > DateTimeExtensions.DateTimeNowCorrection().AddDays(-1) && ((double) x[0]).ToDateTime() <= DateTimeExtensions.DateTimeNowCorrection())) {
+                .Where(x => ((double) x[0]).ToDateTime() > System.DateTime.Now.AddDays(-1) && ((double) x[0]).ToDateTime() <= DateTimeExtensions.DateTimeNowCorrection())) {
 
                 DateTimeValueTuple dateTimeValueTuple = new DateTimeValueTuple() {
                     DateTime = ((double) element[0]).ToDateTime(),

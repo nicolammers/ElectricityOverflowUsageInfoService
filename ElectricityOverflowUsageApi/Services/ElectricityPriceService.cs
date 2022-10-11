@@ -26,7 +26,7 @@ namespace ElectricityOverflowUsageApi.Services {
             TimeSeries timeSeriesForTimestamp = await _smardApiReader.GetTimeSeriesAsync(ElectricityOverflowUsageInfoService.SmardApi.Filter.MarketPriceGermany, lastTimestamp);
 
             foreach (List<double?> element in timeSeriesForTimestamp.Series
-                .Where(x => ((double) x[0]).ToDateTime() > DateTimeExtensions.DateTimeNowCorrection().AddDays(-1) && ((double) x[0]).ToDateTime() <= DateTimeExtensions.DateTimeNowCorrection())) {
+                .Where(x => ((double) x[0]).ToDateTime() > DateTime.Now.AddDays(-1) && ((double) x[0]).ToDateTime() <= DateTimeExtensions.DateTimeNowCorrection())) {
 
                 DateTimeValueTuple dateTimeValueTuple = new DateTimeValueTuple() {
                     DateTime = ((double) element[0]).ToDateTime(),

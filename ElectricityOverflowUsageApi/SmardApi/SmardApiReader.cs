@@ -7,20 +7,13 @@ using System.Threading.Tasks;
 namespace ElectricityOverflowUsageInfoService.SmardApi {
     public class SmardApiReader {
         public async Task<Indices> GetIndicesDescAsync(Filter filter) {
-            try {
-                using (HttpClient client = new HttpClient()) {
-                    //ToDo: Timeout of client
+            using (HttpClient client = new HttpClient()) {
+                HttpResponseMessage response = await client.GetAsync(GetIndicesUri(filter));
+                string contentString = await response.Content.ReadAsStringAsync();
+                Indices indices = JsonConvert.DeserializeObject<Indices>(contentString);
 
-                    HttpResponseMessage response = await client.GetAsync(GetIndicesUri(filter));
-                    string contentString = await response.Content.ReadAsStringAsync();
-                    Indices indices = JsonConvert.DeserializeObject<Indices>(contentString);
-
-                    indices.Timestamps.Reverse();
-                    return indices;
-                }
-            } catch (Exception ex) {
-                //ToDo: exception handling
-                return null;
+                indices.Timestamps.Reverse();
+                return indices;
             }
         }
 
@@ -40,17 +33,13 @@ namespace ElectricityOverflowUsageInfoService.SmardApi {
         }
 
         public async Task<TimeSeries> GetTimeSeriesAsync(Filter filter, double timestamp) {
-            try {
-                using (HttpClient client = new HttpClient()) {
-                    HttpResponseMessage response = await client.GetAsync(GetTimeSeriesUri(filter, timestamp));
-                    string contentString = await response.Content.ReadAsStringAsync();
-                    TimeSeries timeSeries = JsonConvert.DeserializeObject<TimeSeries>(contentString);
-                    return timeSeries;
-                }
-            } catch (Exception ex) {
-                //ToDo: exception handling
-                return null;
+            using (HttpClient client = new HttpClient()) {
+                HttpResponseMessage response = await client.GetAsync(GetTimeSeriesUri(filter, timestamp));
+                string contentString = await response.Content.ReadAsStringAsync();
+                TimeSeries timeSeries = JsonConvert.DeserializeObject<TimeSeries>(contentString);
+                return timeSeries;
             }
+
         }
 
         private Uri GetTimeSeriesUri(Filter filter, double timestamp) {

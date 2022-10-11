@@ -115,7 +115,7 @@ namespace ElectricityOverflowUsageInfoService.Services {
             List<DateTimeValueTuple> dateTimeValueTuples = new List<DateTimeValueTuple>();
 
             foreach (List<double?> element in timeSeries.Series
-                .Where(x => ((double) x[0]).ToDateTime() > DateTimeExtensions.DateTimeNowCorrection().AddDays(-1) &&
+                .Where(x => ((double) x[0]).ToDateTime() > DateTime.Now.AddDays(-1) &&
                 ((double) x[0]).ToDateTime() <= DateTimeExtensions.DateTimeNowCorrection())) {
 
                 DateTimeValueTuple dateTimeValueTuple = new DateTimeValueTuple() {
