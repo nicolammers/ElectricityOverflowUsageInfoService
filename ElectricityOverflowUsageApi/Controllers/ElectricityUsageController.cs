@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ElectricityOverflowUsageApi.Services;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace ElectricityOverflowUsageApi.Controllers {
     [ApiController]
@@ -9,13 +9,9 @@ namespace ElectricityOverflowUsageApi.Controllers {
     public class ElectricityUsageController : ControllerBase {
 
         [HttpGet]
-        public async Task<IActionResult> GetElectricityUsageAsync() {
-
-            var smardApiReader = new ElectricityOverflowUsageInfoService.SmardApi.SmardApiReader();
-            var elecUsageServ = new ElectricityOverflowUsageInfoService.Services.ElectricityUsageService(smardApiReader);
-
+        public IActionResult GetElectricityUsage() {
             try {
-                return StatusCode((int) HttpStatusCode.OK, new JsonResult(await elecUsageServ.GetTotalElectricityUsageAsync()));
+                return StatusCode((int) HttpStatusCode.OK, new JsonResult(ServiceDataChache.ElectricityUsage));
             } catch (Exception ex) {
                 return StatusCode((int) HttpStatusCode.InternalServerError, ex.Message);
             }
