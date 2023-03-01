@@ -13,6 +13,7 @@ namespace ElectricityOverflowUsageApi.Services {
         public static List<DateTimeValueTuple> ElectricityGeneration { get; set; }
         public static List<DateTimeValueTuple> ElectricityUsage { get; set; }
         public static List<DateTimeValueTuple> ElectricityPrices { get; set; }
+        public static List<DateTimeValueTuple> WindPhotovoltaikGenerationPercent { get; set; }
 
         private static readonly SmardApiReader _smardApiReader = new SmardApiReader();
         private static readonly ElectricityGenerationService _electricityGenerationService = new ElectricityGenerationService(_smardApiReader);
@@ -66,6 +67,10 @@ namespace ElectricityOverflowUsageApi.Services {
 
         private static async Task RefreshElecPricesAsync() {
             ElectricityPrices = await _electricityPriceService.GetElectricityPricesAsync();
+        }
+
+        private static async Task RefreshWindPhotovoltaikEnergyAsync() {
+            WindPhotovoltaikGenerationPercent = await _electricityGenerationService.GetWindPhotovoltaikGenerationInPercentAsync();
         }
     }
 }
