@@ -48,6 +48,7 @@ namespace ElectricityOverflowUsageApi.Services {
                 RefreshElecGenerationAsync();
                 RefreshElecUsageAsync();
                 RefreshElecPricesAsync();
+                RefreshWindPhotovoltaikEnergyAsync();
             });
 
             t.Start();
